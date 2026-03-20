@@ -730,10 +730,10 @@ setTimeout(()=>{ const k=localStorage.getItem('sk_schullers'); if(k&&document.ge
 async function callClaude(prompt, sys='Du bist ein hilfreicher Koch-Assistent. Antworte auf Deutsch.'){
   const key=getKey();
   if(!key) throw new Error('Bitte zuerst einen Anthropic API Key eingeben.');
-  const res=await fetch('https://api.anthropic.com/v1/messages',{
+  const res=await fetch('https://schullers-kitchen.vercel.app/api/chat',{
     method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:prompt}]})
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({key,model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:prompt}]})
   });
   if(!res.ok){ const e=await res.json().catch(()=>({})); throw new Error(e.error?.message||`API Fehler ${res.status}`); }
   const data=await res.json();
