@@ -183,7 +183,7 @@ textarea{min-height:78px;resize:vertical}
     <div style="position:absolute;bottom:-1px;left:0;right:0;height:28px;background:var(--cream);border-radius:26px 26px 0 0"></div>
     <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.58;margin-bottom:7px">Willkommen</div>
     <h1 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;line-height:1.2">Schullers <em style="font-style:italic;color:var(--gold2)">Küche</em></h1>
-    <p style="font-size:13px;opacity:.62;margin-top:7px">Für Norbert & Angelina</p>
+    <p style="font-size:13px;opacity:.62;margin-top:7px;display:flex;align-items:center;gap:6px">Für Norbert & Angelina <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg></p>
   </div>
   <div style="padding:18px 18px 0">
     <div class="stat-grid">
@@ -476,7 +476,7 @@ function renderHome(){
     const r = rid ? recipes.find(x=>x.id===rid) : null;
     return `<div style="display:flex;align-items:center;gap:10px;padding:11px 0;${i<2?'border-bottom:1px solid var(--cream2)':''}">
       <div style="width:8px;height:8px;border-radius:50%;background:${m==='f'?'var(--gold)':m==='m'?'var(--terra)':'var(--olive)'};flex-shrink:0"></div>
-      <div style="font-size:11px;font-weight:700;color:var(--muted);width:60px;text-transform:uppercase;letter-spacing:.04em">${MEAL_TYPES[m]}</div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);min-width:80px;text-transform:uppercase;letter-spacing:.04em">${MEAL_TYPES[m]}</div>
       ${r?`<div style="font-size:13px;font-weight:600">${r.name}</div>`:`<div style="font-size:12px;color:var(--muted);font-style:italic">Nicht geplant</div>`}
     </div>`;
   }).join('');
@@ -631,7 +631,7 @@ function renderPlanner(){
         const rid=weekPlan[`${d}_${m}`];
         const r=rid?recipes.find(x=>x.id===rid):null;
         return `<div class="meal-slot" onclick="openPicker(${d},'${m}')">
-          <span style="width:26px;text-align:center;display:flex;align-items:center;justify-content:center">${m==='f'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="color:var(--gold)"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>':m==='m'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="color:var(--terra)"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="color:var(--brown)"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'}</span>
+          <span style="width:26px;text-align:center;display:flex;align-items:center;justify-content:center">${m==='f'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="color:var(--gold)"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>':m==='m'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="color:var(--terra)"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="color:var(--brown)"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'}</span>
           <div style="flex:1;min-width:0">
             <div style="font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">${MEAL_TYPES[m]}</div>
             <div style="font-size:13px;font-weight:${r?'600':'400'};color:${r?'var(--text)':'var(--muted)'};font-style:${r?'normal':'italic'};margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r?r.name:'Tippen zum Hinzufügen'}</div>
@@ -697,7 +697,7 @@ window.genShopList = genShopList;
 function renderShopping(){
   const el=document.getElementById('shop-list');
   if(!el) return;
-  if(!shoppingList.length){ el.innerHTML='<div style="text-align:center;padding:50px 20px"><div style="display:none"><h3 style="font-family:\'Playfair Display\',serif;font-size:18px;margin-bottom:8px">Noch keine Einkaufsliste</h3><p style="font-size:13px;color:var(--muted);line-height:1.6">Fülle den Wochenplan und tippe auf "Neu generieren".</p></div>'; return; }
+  if(!shoppingList.length){ el.innerHTML='<div style="text-align:center;padding:50px 20px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="64" height="64" style="color:var(--cream3);margin-bottom:16px"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><h3 style="font-family:\'Playfair Display\',serif;font-size:18px;margin-bottom:8px">Noch keine Einkaufsliste</h3><p style="font-size:13px;color:var(--muted);line-height:1.6">Fülle den Wochenplan und tippe auf "Neu generieren".</p></div>'; return; }
   const groups={};
   shoppingList.forEach((item,idx)=>{ const g=item.category||'Sonstiges'; if(!groups[g]) groups[g]=[]; groups[g].push({...item,idx}); });
   el.innerHTML=Object.entries(groups).map(([cat,items])=>`
