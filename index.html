@@ -650,8 +650,8 @@ function renderPlanner(){
   const el=document.getElementById('week-grid');
   if(!el) return;
   el.innerHTML=DAYS.map((day,d)=>{
-    const hasF = weekPlan[`${d}_f`];
-    const hasA = weekPlan[`${d}_a`];
+    const hasF = `${d}_f` in weekPlan;
+    const hasA = `${d}_a` in weekPlan;
     return `<div class="day-card">
       <div class="day-hd${d===di?' today':''}">
         <span>${day}</span>
@@ -670,8 +670,11 @@ function renderPlanner(){
   }).join('');
 }
 
-window.addMealToDay = function(d, m){
-  openPicker(d, m);
+window.addMealToDay = async function(d, m){
+  // First tap: just add the empty slot to the plan (no recipe yet)
+  weekPlan[`${d}_${m}`] = null;
+  await saveWeekPlan();
+  renderPlanner();
 };
 
 window.openPicker = function(day,meal){
