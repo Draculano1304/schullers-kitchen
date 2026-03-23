@@ -625,13 +625,16 @@ function mealSlot(d, m){
   const r = rid ? recipes.find(x=>x.id===rid) : null;
   const icon = m==='f'?SVG_F:m==='m'?SVG_M:SVG_A;
   const color = m==='f'?'var(--gold)':m==='m'?'var(--terra)':'var(--brown)';
-  return `<div class="meal-slot" onclick="openPicker(${d},'${m}')">
-    <span style="width:26px;display:flex;align-items:center;justify-content:center;color:${color}">${icon}</span>
-    <div style="flex:1;min-width:0">
-      <div style="font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">${MEAL_TYPES[m]}</div>
-      <div style="font-size:13px;font-weight:${r?'600':'400'};color:${r?'var(--text)':'var(--muted)'};font-style:${r?'normal':'italic'};margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r?r.name:'Tippen zum Hinzufügen'}</div>
+  return `<div style="display:flex;align-items:center;gap:6px">
+    <div class="meal-slot" onclick="openPicker(${d},'${m}')" style="flex:1">
+      <span style="width:26px;display:flex;align-items:center;justify-content:center;color:${color}">${icon}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">${MEAL_TYPES[m]}</div>
+        <div style="font-size:13px;font-weight:${r?'600':'400'};color:${r?'var(--text)':'var(--muted)'};font-style:${r?'normal':'italic'};margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r?r.name:'Tippen zum Hinzufügen'}</div>
+      </div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="opacity:.18;flex-shrink:0"><path d="M9 18l6-6-6-6"/></svg>
     </div>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="opacity:.18;flex-shrink:0"><path d="M9 18l6-6-6-6"/></svg>
+    ${m!=='m'?`<button onclick="removeMealFromDay(${d},'${m}')" style="width:24px;height:24px;border-radius:50%;border:none;background:var(--cream2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--muted);font-size:14px;line-height:1">✕</button>`:''}
   </div>`;
 }
 
@@ -671,8 +674,13 @@ function renderPlanner(){
 }
 
 window.addMealToDay = async function(d, m){
-  // First tap: just add the empty slot to the plan (no recipe yet)
   weekPlan[`${d}_${m}`] = null;
+  await saveWeekPlan();
+  renderPlanner();
+};
+
+window.removeMealFromDay = async function(d, m){
+  delete weekPlan[`${d}_${m}`];
   await saveWeekPlan();
   renderPlanner();
 };
